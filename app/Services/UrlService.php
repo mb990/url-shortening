@@ -17,13 +17,19 @@ class UrlService
      */
     public function store(array $requestData): Url
     {
-        $url = $requestData['original'];
+        $originalUrl = $requestData['original'];
         $inputData = [
-            'original'  => $url,
+            'original'  => $originalUrl,
             'short'     => $this->shorten()
         ];
 
-        return Url::create($inputData);
+        $url = Url::create($inputData);
+
+        if (!$url instanceof Url) {
+            throw new \Exception('Something went wrong.');
+        }
+
+        return $url;
     }
 
     /**
